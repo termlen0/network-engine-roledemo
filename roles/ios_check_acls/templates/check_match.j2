@@ -1,0 +1,8 @@
+{# input vars: protocol, src_ip, dst_ip, dst_port #}
+{# Check if the ACLS match any/any rule #}
+{% for access_list in access_lists %}
+  {% for acl_name,details in access_list.items() %}
+    {% for ace in details.get('data') %}
+      {% if ace.src_network == 'any' %}
+        
+  

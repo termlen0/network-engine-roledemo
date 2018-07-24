@@ -1,0 +1,8 @@
+---
+system:
+  command: show version
+  parser: show_version.yaml
+
+interfaces:
+  command: show interface
+  parser: show_interfaces.yaml

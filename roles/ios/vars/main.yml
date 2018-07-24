@@ -1,0 +1,5 @@
+---
+# vars file for privateip.ios
+#
+config_replace: no
+save_config: no

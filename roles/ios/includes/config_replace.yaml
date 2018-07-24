@@ -1,0 +1,43 @@
+---
+- name: create temp working dir
+  file:
+    path: "{{ ios_config_working_dir }}"
+    state: directory
+
+- name: template source config
+  copy:
+    content: "{{ ios_config_text }}"
+    dest: "{{ ios_config_working_dir }}/{{ ios_config_temp_config_file }}"
+
+- name: enable the ios scp server
+  ios_config:
+    lines: ip scp server enable
+
+- name: copy configuration to device
+  net_put:
+    src: "{{ ios_config_working_dir }}/{{ ios_config_temp_config_file }}"
+    dest: "flash:/{{ ios_config_temp_config_file }}"
+
+- name: generate ios diff
+  cli:
+    command: "show archive config differences flash:{{ ios_config_temp_config_file }} flash:{{ ios_config_checkpoint_filename }}"
+  register: ios_config_diff
+
+- name: display config diff
+  debug:
+    msg: "{{ ios_config_diff.stdout.splitlines() }}"
+
+- name: load and replace current active configuration
+  cli:
+    command: "config replace flash:/{{ ios_config_temp_config_file }} force"
+  when: not ansible_check_mode
+  changed_when: ios_config_diff.stdout
+
+- name: remove uploaded configuration
+  cli:
+    command: "delete /force flash:/{{ ios_config_temp_config_file }}"
+
+- name: remove temp working dir
+  file:
+    path: "{{ ios_config_working_dir }}"
+    state: absent

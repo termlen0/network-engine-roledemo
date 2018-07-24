@@ -1,0 +1,52 @@
+---
+- name: checkpoint existing configuration for rollback
+  ios_command:
+    commands:
+      - command: "copy running-config flash:{{ ios_config_checkpoint_filename }}"
+        prompt: ["? "]
+        answer: "{{ ios_config_checkpoint_filename }}"
+  when: ios_rollback_enabled
+
+- name: load configuration onto target device
+  block:
+    - name: load and execute configuration tasks
+      include_tasks: "{{ ios_configuration_tasks }}"
+  rescue:
+    - name: display message
+      debug:
+        msg: "error configuring device, starting rollback"
+      when: ios_rollback_enabled
+
+    - name: configuration rollback pre hook
+      include_tasks: "{{ ios_configuration_rollback_pre_hook }}"
+      when: ios_configuration_rollback_pre_hook is defined and ios_rollback_enabled
+
+    - name: rollback configuration
+      ios_command:
+        commands:
+          - command: "copy flash:/{{ ios_config_checkpoint_filename }} running-config"
+            prompt: ["? "]
+            answer: "running-config"
+
+    - name: remove configuration checkpoint file
+      cli:
+        command: "delete /force flash:/{{ ios_config_checkpoint_filename }}"
+
+    - name: configuration rollback post hook
+      include_tasks: "{{ ios_configuration_rollback_post_hook }}"
+      when: ios_configuration_rollback_post_hook is defined and ios_rollback_enabled
+
+    - name: display message
+      debug:
+        msg: "successfully completed configuration rollback"
+      when: ios_rollback_enabled
+
+    - name: fail host due to config load error
+      fail:
+        msg: "error loading configuration onto target device"
+
+
+- name: remove configuration checkpoint file
+  cli:
+    command: "delete /force flash:/{{ ios_config_checkpoint_filename }}"
+  when: ios_rollback_enabled

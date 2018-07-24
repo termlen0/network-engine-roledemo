@@ -1,0 +1,25 @@
+#TODO: Check if the needed vars are supplied:
+  # protocol
+  # SRC: IP/network
+  # DST: IP/network
+  # DST: port
+
+- name: INVOKE THE ACL CHECKER FROM THE IOS PROVIDER ROLE
+  include_role:
+    name: ios
+    tasks_from: get_acls
+
+- name: CHECK WHETHER THE DEVICE ACL MATCHES USER INPUT
+  check_ios_match:
+    protocol: "{{ protocol }}"
+    action: "{{ action }}"
+    src_network: "{{ src_network }}"
+    src_mask: "{{ src_mask }}"
+    dst_network: "{{ dst_network }}"
+    dst_mask: "{{ dst_mask }}"
+    dst_port: "{{ dst_port }}"
+    device_acl : "{{ access_lists }}"
+
+# - name: debug
+#   debug:
+#     msg: "{{ src }}"

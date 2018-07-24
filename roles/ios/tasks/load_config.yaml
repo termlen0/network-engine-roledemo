@@ -1,0 +1,17 @@
+---
+- name: load config file contents
+  set_fact:
+    ios_config_text: "{{ lookup('network_template', ios_config_file) }}"
+  when: ios_config_file
+
+- name: perform configuration replace on device
+  include_tasks: configure.yaml
+  when: ios_config_replace
+  vars:
+    ios_configuration_tasks: includes/config_replace.yaml
+
+- name: perform configuration merge on device
+  include_tasks: configure.yaml
+  when: not ios_config_replace
+  vars:
+    ios_configuration_tasks: includes/config_terminal.yaml

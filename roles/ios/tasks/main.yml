@@ -1,0 +1,24 @@
+---
+# tasks file for ios
+#
+- name: validate ansible_network_os == 'ios'
+  fail:
+    msg: this role only works with arista ios devices
+  when: ansible_network_os != 'ios'
+
+- name: set role supported functions
+  set_fact:
+    ios_functions:
+      - get_facts
+      - get_config
+      - load_config
+      - get_acls
+      - noop
+
+- name: validate the requested function is supported
+  fail:
+    msg: "invalid function specified, expected one of {{ ios_functions }}, got {{ function }}"
+  when: function | default('noop') not in ios_functions
+
+- name: include function specific tasks and run
+  include_tasks: "{{ function  | default('noop') }}.yaml"
