@@ -11,6 +11,11 @@
    - [X] Checks for subnets
    - [X] Checks for "any"
    - [X] Checks for "tcp" and "udp" being subnets of 
+* Playbook flow
+
+
+
+[[file:images/playbook_flow.png]]
 
 * Directory structure
 
@@ -22,14 +27,9 @@
 ** The ios_check_acls role:
 
 [[file:images/role_dir.png]]
-
-* Playbook flow
-
-
-
-[[file:images/playbook_flow.png]]
 * Demo
-* TODOS:
+* TODO:
+
   - [ ] Check for variables
   - [ ] Add role dependencies
   - [ ] Handle devices that do not have acls configured on them (fail gracefully)

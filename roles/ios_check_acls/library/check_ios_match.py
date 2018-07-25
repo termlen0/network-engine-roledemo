@@ -60,12 +60,11 @@ def check_network(network_to_check=None, network_from_device=None):
             subnet.append(str(component))
         subnet = '.'.join(subnet)
         return subnet
-
     # Clean up the data returned from the device
-    if network_from_device.strip() != 'any':
-        param1, param2 = network_from_device.strip().split()
+    if network_from_device != 'any':
+        param1, param2 = network_from_device.split()
     # First check if device allows any
-    if network_from_device.strip() == 'any':
+    if network_from_device == 'any':
         return True
     # Next, check if device is permitting a host and requested rule check is
     # also a host
@@ -99,7 +98,7 @@ def check_port(input_dict=None, device_dict=None):
         return True
     # Check for 'permit ip host 192.168.0.1 host 172.16.0.1; with user input
     # for a specific TCP/UDP port
-    if device_port == 'None':
+    if device_port == 'None' or not device_port:
         if device_protocol == 'ip':
             return True
     return False

@@ -1,0 +1,7 @@
+ACL MATCH :
+
+  ACL NAME: TESTER
+  ACL NUM: 10
+  ACTION: permit
+  RULE: 10.100.100.0 0.0.0.127 -> 3.0.0.0 0.255.255.255:
+

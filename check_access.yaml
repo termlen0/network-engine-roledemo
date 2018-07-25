@@ -16,3 +16,15 @@
         dst_network: '172.17.33.128'
         dst_mask: '255.255.255.128'
         dst_port: '2222'
+
+
+    # - include_role:
+    #     name: ios_check_acls
+    #   vars:
+    #     protocol: 'tcp'
+    #     action: 'permit'
+    #     src_network: '10.100.100.1'
+    #     src_mask: '255.255.255.255'
+    #     dst_network: '3.0.0.1'
+    #     dst_mask: '255.255.255.255'
+    #     dst_port: '2222'

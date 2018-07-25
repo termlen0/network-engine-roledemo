@@ -1,8 +1,9 @@
-{# input vars: protocol, src_ip, dst_ip, dst_port #}
-{# Check if the ACLS match any/any rule #}
-{% for access_list in access_lists %}
-  {% for acl_name,details in access_list.items() %}
-    {% for ace in details.get('data') %}
-      {% if ace.src_network == 'any' %}
-        
-  
+ACL MATCH :
+
+{% for ace in output.result %}
+  ACL NAME: {{ ace.ace_name }}
+  ACL NUM: {{ ace.ace_number }}
+  ACTION: {{ ace.ace_action }}
+  RULE: {{ ace.rule_match }}
+
+{% endfor %}

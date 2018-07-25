@@ -4,6 +4,7 @@
   # DST: IP/network
   # DST: port
 
+#TODO: Check that the IOS(provider) role is included
 - name: INVOKE THE ACL CHECKER FROM THE IOS PROVIDER ROLE
   include_role:
     name: ios
@@ -19,7 +20,31 @@
     dst_mask: "{{ dst_mask }}"
     dst_port: "{{ dst_port }}"
     device_acl : "{{ access_lists }}"
+  register: output
 
 # - name: debug
 #   debug:
 #     msg: "{{ src }}"
+
+- name: DISPLAY MATCH
+  debug:
+    var: output.result
+
+- name: GENERATING REPORTS....
+  block:
+    - name: CREATE A REPORTS DIRECTORY
+      file:
+        path: "{{ playbook_dir }}/acl_match_report"
+        state: directory
+
+    - name: GENERATE THE REPORT
+      template:
+        src: check_match.j2
+        dest: "{{ playbook_dir }}/acl_match_report/{{ inventory_hostname }}_report.md"
+
+    - name: DISPLAY THE REPORT LOCATION
+      debug:
+        msg: "Match identified. Please view the reports at {{ playbook_dir }}/acl_match_report"
+
+  when:
+    "'No match found' not in output.result"

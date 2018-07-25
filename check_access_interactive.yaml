@@ -1,0 +1,41 @@
+---
+- name: TEST THE IOS ROLE
+  hosts: all
+  connection: network_cli
+  gather_facts: no
+
+  vars_prompt:
+    - name: src_net
+      prompt: "Source IP/network: "
+      private: no
+    - name: src_m
+      prompt: "Source network mask: "
+      private: no
+    - name: dst_net
+      prompt: "Destination IP/network: "
+      private: no
+    - name: dst_m
+      prompt: "Destination network mask: "
+      private: no
+    - name: dst_po
+      prompt: "Destination port: "
+      private: no
+    - name: act
+      prompt: "Permit/Deny"
+      private: no
+    - name: proto
+      prompt: "Protocol[ip, udp or TCP]"
+      private: no
+
+  tasks:
+
+    - include_role:
+        name: ios_check_acls
+      vars:
+        protocol: "{{ proto | lower}}"
+        action:  "{{ act | lower }}"
+        src_network: "{{ src_net }}"
+        src_mask: "{{ src_m }}"
+        dst_network: "{{ dst_net }}"
+        dst_mask: "{{ dst_m }}"
+        dst_port: "{{ dst_po }}"
