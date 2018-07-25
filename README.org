@@ -1,0 +1,37 @@
+#+Title: Building higher level abstractions on top of the network-engine providers 
+#+EPRESENT_FRAME_LEVEL: 1
+
+* What is this demo addressing
+
+** Use case
+
+   A typical automation use case is to validate whether access-lists are open
+   between a given source and destination IP tuple. This demo uses a role to
+   solve this. 
+   - [X] Checks for subnets
+   - [X] Checks for "any"
+   - [X] Checks for "tcp" and "udp" being subnets of 
+
+* Directory structure
+
+** Roles:
+
+[[file:images/dir_layout.png]]
+
+
+
+** The ios_check_acls role:
+
+[[file:images/role_dir.png][role_layout]]
+
+* Playbook flow
+
+
+
+
+[[file:images/playbook_flow.png][playbook flow]]
+* Demo
+* TODOS:
+** Check for variables
+** Add role dependencies
+** Handle devices that do not have acls configured on them (fail gracefully)
