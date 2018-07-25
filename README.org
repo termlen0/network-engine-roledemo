@@ -15,21 +15,19 @@
 * Directory structure
 
 ** Roles:
-
 [[file:images/dir_layout.png]]
 
 
 
 ** The ios_check_acls role:
 
-[[file:images/role_dir.png][role_layout]]
+[[file:images/role_dir.png]]
 
 * Playbook flow
 
 
 
-
-[[file:images/playbook_flow.png][playbook flow]]
+[[file:images/playbook_flow.png]]
 * Demo
 * TODOS:
 ** Check for variables
