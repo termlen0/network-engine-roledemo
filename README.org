@@ -30,6 +30,6 @@
 [[file:images/playbook_flow.png]]
 * Demo
 * TODOS:
-** Check for variables
-** Add role dependencies
-** Handle devices that do not have acls configured on them (fail gracefully)
+  - [ ] Check for variables
+  - [ ] Add role dependencies
+  - [ ] Handle devices that do not have acls configured on them (fail gracefully)
