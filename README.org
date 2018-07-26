@@ -28,8 +28,18 @@
 
 [[file:images/role_dir.png]]
 * Demo
+
+** Demo 1: 
+
+   ` ansible-playbook -i inventory check_access.yaml`
+
+** Demo 2:
+
+   ` ansible-playbook -i inventory check_access_interactive.yaml`
 * TODO:
 
   - [ ] Check for variables
   - [ ] Add role dependencies
+  - [ ] Ensure module dependency (netaddr) is installed
+  - [ ] Add code to validate source port and range of ports
   - [ ] Handle devices that do not have acls configured on them (fail gracefully)
